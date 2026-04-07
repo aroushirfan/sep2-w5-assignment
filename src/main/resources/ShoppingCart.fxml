@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ShoppingCartController"
+            prefWidth="500" prefHeight="400">
+
+    <center>
+        <VBox fx:id="rootVBox"
+              alignment="CENTER"
+              fillWidth="false"
+              spacing="12"
+              prefWidth="350">
+
+            <Label fx:id="titleLabel" text="Shopping Cart"/>
+            <ComboBox fx:id="languageSelector"/>
+
+            <Label fx:id="itemsLabel"/>
+            <TextField fx:id="itemsField"/>
+
+            <Button fx:id="enterButton" text="Enter" onAction="#handleEnter"/>
+
+            <Label fx:id="priceLabel" visible="false"/>
+            <TextField fx:id="priceField" visible="false"/>
+
+            <Label fx:id="quantityLabel" visible="false"/>
+            <TextField fx:id="quantityField" visible="false"/>
+
+            <Button fx:id="calculateButton" visible="false" onAction="#calculateTotal"/>
+            <Label fx:id="totalLabel"/>
+        </VBox>
+    </center>
+</BorderPane>
