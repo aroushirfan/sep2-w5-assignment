@@ -1,41 +1,47 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven3'
+    }
+
     environment {
+        PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
+        JAVA_HOME = 'C:\Program Files\Java\jdk-21.0.10'
+        SONARQUBE_SERVER = 'SonarQubeServer'
+        SONAR_TOKEN = 'squ_c5e6e519dcbf9c26b4929cfeb5fc2b2dcb5b6c1f'
         DOCKERHUB_CREDENTIALS_ID = 'dockerhub-creds'
-        DOCKERHUB_REPO = 'aroushi/w3_assignment'
+        DOCKERHUB_REPO = 'aroushi/w5_assignment'
         DOCKER_IMAGE_TAG = 'latest'
     }
 
     stages {
 
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/aroushirfan/sep2-w3-assignment.git'
+            }
+        }
+
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                bat 'mvn clean install'
             }
         }
 
-        stage('Test') {
+        stage('SonarQube Analysis') {
             steps {
-                sh 'mvn test'
-            }
-        }
-
-        stage('Code Coverage') {
-            steps {
-                sh 'mvn jacoco:report'
-            }
-        }
-
-        stage('Publish Test Results') {
-            steps {
-                junit '**/target/surefire-reports/*.xml'
-            }
-        }
-
-        stage('Publish Coverage Report') {
-            steps {
-                jacoco()
+                withSonarQubeEnv('SonarQubeServer') {
+                    bat """
+                    ${tool 'SonarScanner'}\\bin\\sonar-scanner ^
+                    -Dsonar.projectKey=w3-assignment ^
+                    -Dsonar.sources=src/main/java ^
+                    -Dsonar.tests=src/test/java ^
+                    -Dsonar.java.binaries=target/classes ^
+                    -Dsonar.host.url=http://localhost:9000 ^
+                    -Dsonar.login=${env.SONAR_TOKEN}
+                    """
+                }
             }
         }
 

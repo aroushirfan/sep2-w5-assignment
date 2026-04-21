@@ -1,3 +1,5 @@
+package cart;
+
 import javafx.fxml.FXML;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.control.*;
@@ -40,7 +42,7 @@ public class ShoppingCartController {
 
     private LocalizationService localizationService = new LocalizationService();
     private CartService cartService = new CartService();
-
+    private static final String ENGLISH = "english";
     private Map<String, String> strings;
     private List<CartItem> itemsList = new ArrayList<>();
 
@@ -52,10 +54,10 @@ public class ShoppingCartController {
 
     @FXML
     public void initialize() {
-        languageSelector.getItems().addAll("English", "Arabic", "Finnish", "Swedish", "Japanese");
-        languageSelector.getSelectionModel().select("English");
+        languageSelector.getItems().addAll(ENGLISH, "Arabic", "Finnish", "Swedish", "Japanese");
+        languageSelector.getSelectionModel().select(ENGLISH);
 
-        updateLanguage("English");
+        updateLanguage(ENGLISH);
 
         languageSelector.setOnAction(e -> updateLanguage(languageSelector.getValue()));
         enterButton.setOnAction(e -> handleEnter());
@@ -148,4 +150,13 @@ public class ShoppingCartController {
         quantityField.setVisible(visible);
         calculateButton.setVisible(visible);
     }
+  // For testing – allow injecting mocks
+  public void setLocalizationService(LocalizationService service) {
+    this.localizationService = service;
+  }
+
+  public void setCartService(CartService service) {
+    this.cartService = service;
+  }
+
 }

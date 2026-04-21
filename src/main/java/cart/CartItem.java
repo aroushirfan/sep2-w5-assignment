@@ -1,3 +1,5 @@
+package cart;
+
 public class CartItem {
     private int itemNumber;
     private double price;
