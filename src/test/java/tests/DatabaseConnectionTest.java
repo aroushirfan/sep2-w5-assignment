@@ -9,8 +9,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 
 class DatabaseConnectionTest {
 
@@ -19,7 +20,7 @@ class DatabaseConnectionTest {
     Connection mockConn = mock(Connection.class);
 
     try (MockedStatic<DriverManager> dm = Mockito.mockStatic(DriverManager.class)) {
-      dm.when(() -> DriverManager.getConnection(anyString(), anyString(), any()))
+      dm.when(() -> DriverManager.getConnection(anyString(), any(), any()))
           .thenReturn(mockConn);
 
       Connection result = DatabaseConnection.getConnection();
@@ -32,7 +33,7 @@ class DatabaseConnectionTest {
   @Test
   void testGetConnection_failureReturnsNull() {
     try (MockedStatic<DriverManager> dm = Mockito.mockStatic(DriverManager.class)) {
-      dm.when(() -> DriverManager.getConnection(anyString(), anyString(), any()))
+      dm.when(() -> DriverManager.getConnection(anyString(), any(), any()))
           .thenThrow(new RuntimeException("DB error"));
 
       Connection result = DatabaseConnection.getConnection();
