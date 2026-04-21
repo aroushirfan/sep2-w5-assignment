@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: shoppingcart_db
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: shopping_cart_localization
+    ports:
+      - "3306:3306"
+    networks:
+      - appnet
+
+  app:
+    image: aroushi/w5_assignment:latest
+    container_name: shoppingcart_app
+    environment:
+      DISPLAY: host.docker.internal:0.0
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: 12345
+    depends_on:
+      - db
+    networks:
+      - appnet
+
+networks:
+  appnet:
