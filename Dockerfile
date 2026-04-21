@@ -25,7 +25,4 @@ COPY --from=build /app/target/w3-assignment-1.0-SNAPSHOT.jar app.jar
 
 ENV DISPLAY=host.docker.internal:0.0
 
-CMD ["java",
-     "--module-path", "/usr/share/openjfx/lib",
-     "--add-modules", "javafx.controls,javafx.fxml",
-     "-jar", "app.jar"]
+CMD ["java", "--module-path", "/usr/share/openjfx/lib", "--add-modules", "javafx.controls,javafx.fxml", "-jar", "app.jar"]
