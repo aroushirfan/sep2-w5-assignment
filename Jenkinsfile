@@ -19,7 +19,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/aroushirfan/sep2-w3-assignment.git'
+                git branch: 'main', url: 'https://github.com/aroushirfan/sep2-w5-assignment.git'
             }
         }
 
